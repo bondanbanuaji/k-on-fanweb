@@ -158,7 +158,7 @@ const Hero = () => {
                             id="watch-trailer"
                             title="Watch trailer"
                             leftIcon={<TiLocationArrow />}
-                            containerClass="!bg-yellow-300 flex-center gap-1"
+                            containerClass="!bg-yellow-300 flex-center gap-1 animated-button"
                         />
                     </div>
                 </div>
