@@ -1,126 +1,99 @@
+import { useState, useRef, useEffect } from "react";
 import { Link } from "react-scroll";
-import clsx from "clsx";
 import gsap from "gsap";
-import { useWindowScroll } from "react-use";
-import { useEffect, useRef, useState } from "react";
-import { TiLocationArrow } from "react-icons/ti";
-
+import HamburgerButton from "./HamburgerButton";
 import Button from "./Button";
+import { TiLocationArrow } from "react-icons/ti";
 
 const navItems = ["Nexus", "Vault", "Prologue", "About", "Contact"];
 
 const NavBar = () => {
-    // State untuk audio dan indikator
-    const [isAudioPlaying, setIsAudioPlaying] = useState(false);
-    const [isIndicatorActive, setIsIndicatorActive] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
+    const overlayRef = useRef(null);
+    const navItemsRef = useRef([]);
+    navItemsRef.current = [];
 
-    // Refs untuk audio dan container navbar
-    const audioElementRef = useRef(null);
-    const navContainerRef = useRef(null);
-
-    const { y: currentScrollY } = useWindowScroll();
-    const [isNavVisible, setIsNavVisible] = useState(true);
-    const [lastScrollY, setLastScrollY] = useState(0);
-
-    // Toggle audio dan indikator
-    const toggleAudioIndicator = () => {
-        setIsAudioPlaying((prev) => !prev);
-        setIsIndicatorActive((prev) => !prev);
+    // Tambahkan referensi untuk setiap item menu
+    const addToRefs = (el) => {
+        if (el && !navItemsRef.current.includes(el)) {
+            navItemsRef.current.push(el);
+        }
     };
 
-    // Mengatur pemutaran audio
+    const toggleMenu = () => {
+        setMenuOpen((prev) => !prev);
+    };
+
+    // Animasi overlay menu dan item navigasi menggunakan gsap
     useEffect(() => {
-        if (isAudioPlaying) {
-            audioElementRef.current.play();
+        if (menuOpen) {
+            gsap.to(overlayRef.current, {
+                duration: 0.5,
+                opacity: 1,
+                display: "flex",
+                ease: "power2.out",
+                onStart: () => {
+                    overlayRef.current.style.pointerEvents = "auto";
+                },
+            });
+            gsap.from(navItemsRef.current, {
+                duration: 0.5,
+                y: 20,
+                opacity: 0,
+                stagger: 0.1,
+                ease: "power2.out",
+            });
         } else {
-            audioElementRef.current.pause();
+            gsap.to(overlayRef.current, {
+                duration: 0.5,
+                opacity: 0,
+                display: "none",
+                ease: "power2.in",
+                onComplete: () => {
+                    overlayRef.current.style.pointerEvents = "none";
+                },
+            });
         }
-    }, [isAudioPlaying]);
-
-    // Mengatur visibilitas navbar berdasarkan scroll
-    useEffect(() => {
-        if (currentScrollY === 0) {
-            setIsNavVisible(true);
-            navContainerRef.current.classList.remove("floating-nav");
-        } else if (currentScrollY > lastScrollY) {
-            setIsNavVisible(false);
-            navContainerRef.current.classList.add("floating-nav");
-        } else if (currentScrollY < lastScrollY) {
-            setIsNavVisible(true);
-            navContainerRef.current.classList.add("floating-nav");
-        }
-        setLastScrollY(currentScrollY);
-    }, [currentScrollY, lastScrollY]);
-
-    // Animasi menggunakan gsap
-    useEffect(() => {
-        gsap.to(navContainerRef.current, {
-            y: isNavVisible ? 0 : -100,
-            opacity: isNavVisible ? 1 : 0,
-            duration: 0.2,
-        });
-    }, [isNavVisible]);
+    }, [menuOpen]);
 
     return (
-        <div
-            ref={navContainerRef}
-            className="fixed inset-x-0 z-50 h-16 transition-all duration-700 border-none top-4 sm:inset-x-6"
-        >
-            <header className="absolute w-full -translate-y-1/2 top-1/2">
-                <nav className="flex items-center justify-between p-4 size-full">
-                    {/* Logo dan tombol Product */}
-                    <div className="flex items-center gap-7">
-                        <img src="/img/logo.png" alt="logo" className="w-10" />
-                        <Button
-                            id="product-button"
-                            title="Products"
-                            rightIcon={<TiLocationArrow />}
-                            containerClass="bg-blue-50 md:flex hidden items-center justify-center gap-1"
-                        />
-                    </div>
-
-                    {/* Navigation Links dan tombol Audio */}
-                    <div className="flex items-center h-full">
-                        <div className="hidden md:block">
-                            {navItems.map((item, index) => (
-                                <Link
-                                    key={index}
-                                    to={item.toLowerCase()}
-                                    smooth={true}
-                                    duration={800}
-                                    offset={-64} // sesuaikan offset sesuai tinggi navbar
-                                    className="nav-hover-btn"
-                                >
-                                    {item}
-                                </Link>
-                            ))}
-                        </div>
-
-                        <button
-                            onClick={toggleAudioIndicator}
-                            className="ml-10 flex items-center space-x-0.5"
-                        >
-                            <audio
-                                ref={audioElementRef}
-                                className="hidden"
-                                src="/audio/loop.mp3"
-                                loop
-                            />
-                            {[1, 2, 3, 4].map((bar) => (
-                                <div
-                                    key={bar}
-                                    className={clsx("indicator-line", {
-                                        active: isIndicatorActive,
-                                    })}
-                                    style={{
-                                        animationDelay: `${bar * 0.1}s`,
-                                    }}
-                                />
-                            ))}
-                        </button>
-                    </div>
-                </nav>
+        <div className="fixed inset-x-0 z-50">
+            <header className="flex items-center justify-between p-4 bg-transparent shadow-lg">
+                <div className="flex items-center gap-4">
+                    <img src="/img/logo.png" alt="logo" className="w-10" />
+                    <Button
+                        id="product-button"
+                        title="Products"
+                        rightIcon={<TiLocationArrow />}
+                        containerClass="bg-blue-50 hidden md:flex items-center justify-center gap-1"
+                    />
+                </div>
+                <HamburgerButton isOpen={menuOpen} onClick={toggleMenu} />
             </header>
+
+            {/* Overlay menu */}
+            <div
+                ref={overlayRef}
+                className="fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-80"
+                style={{ opacity: 0, display: "none", pointerEvents: "none" }}
+            >
+                <ul className="space-y-6 text-3xl text-white">
+                    {navItems.map((item, index) => (
+                        <li key={index} ref={addToRefs}>
+                            <Link
+                                to={item.toLowerCase()}
+                                smooth={true}
+                                duration={800}
+                                offset={-64} // sesuaikan offset dengan tinggi navbar
+                                onClick={() => setMenuOpen(false)}
+                                className="transition-colors duration-300 cursor-pointer hover:text-gray-300"
+                            >
+                                {item}
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </div>
     );
 };

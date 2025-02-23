@@ -9,7 +9,7 @@ import Footer from './components/Footer';
 
 const App = () => {
     return (
-        <main className="relative w-screen min-h-screen overflow-x-hidden">
+        <main className="relative w-screen min-h-screen overflow-x-hidden bg-slate-600">
             <Navbar />
             <Hero />
             <About />
