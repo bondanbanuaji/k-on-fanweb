@@ -6,7 +6,7 @@ import HamburgerButton from "./HamburgerButton";
 import Button from "./Button";
 import { TiLocationArrow } from "react-icons/ti";
 
-const navItems = ["Nexus", "Vault", "Prologue", "About", "Contact"];
+const navItems = ["About", "Features", "Story", "Contact"];
 
 const NavBar = () => {
     // State dan ref untuk menu hamburger

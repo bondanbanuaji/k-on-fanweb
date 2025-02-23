@@ -10,13 +10,13 @@ const HamburgerButton = ({ isOpen, onClick }) => {
 
     useEffect(() => {
         if (isOpen) {
-            // Animasi untuk membuka menu: ubah hamburger menjadi X
+            // Animation close menu
             gsap.to(topBar.current, { rotation: 45, y: 12, duration: 0.5, delay: 0.15,  ease: "power2.inOut" });
             gsap.to(middle1Bar.current, { opacity: 0, duration: 0.7, delay: 0.15, translateX: 120, ease: "power2.inOut" });
             gsap.to(middle2Bar.current, { opacity: 0, duration: 0.7, translateX: 120, ease: "power2.inOut" });
             gsap.to(bottomBar.current, { rotation: -45, y: -12, duration: 0.5, delay: 0.15, ease: "power2.inOut" });
         } else {
-            // Animasi untuk menutup menu: kembalikan ke bentuk hamburger
+            // Animation close menu
             gsap.to(topBar.current, { rotation: 0, y: 0, duration: 0.5, ease: "power2.inOut" });
             gsap.to(middle1Bar.current, { opacity: 1, duration: 0.7, translateX: 0, ease: "power2.inOut" });
             gsap.to(middle2Bar.current, { opacity: 1, duration: 0.7, delay: 0.15, translateX: 0, ease: "power2.inOut" });

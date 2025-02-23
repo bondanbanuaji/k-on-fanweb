@@ -57,7 +57,9 @@ export const BentoCard = ({ src, title, description, isComingSoon }) => {
     const handleMouseLeave = () => setHoverOpacity(0);
 
     return (
-        <div className="relative size-full">
+        <div 
+        id="features"
+        className="relative size-full">
             <video
                 src={src}
                 loop
@@ -79,7 +81,7 @@ export const BentoCard = ({ src, title, description, isComingSoon }) => {
                         onMouseMove={handleMouseMove}
                         onMouseEnter={handleMouseEnter}
                         onMouseLeave={handleMouseLeave}
-                        className="relative flex items-center gap-1 px-5 py-2 overflow-hidden text-xs uppercase bg-black rounded-full cursor-pointer border-hsla w-fit text-white/20"
+                        className="relative flex items-center gap-1 px-5 py-2 overflow-hidden text-xs uppercase bg-transparent rounded-full cursor-pointer border-hsla w-fit text-white/20"
                     >
                         {/* Radial gradient hover effect */}
                         <div
@@ -99,7 +101,7 @@ export const BentoCard = ({ src, title, description, isComingSoon }) => {
 };
 
 const Features = () => (
-    <section className="bg-black pb-52">
+    <section className="bg-transparent pb-52">
         <div className="container px-3 mx-auto md:px-10">
             <div className="px-5 py-32">
                 <p className="text-lg font-circular-web text-blue-50">

@@ -20,6 +20,7 @@ export default {
           100: '#F0F2FA',
           200: '#010101',
           300: '#4FB7DD',
+          gradation: '#87CEEB',
         },
         violet: {
           300: '#5724FF',

@@ -9,14 +9,22 @@ import Footer from './components/Footer';
 
 const App = () => {
     return (
-        <main className="relative w-screen min-h-screen overflow-x-hidden bg-slate-600">
-            <Navbar />
-            <Hero />
-            <About />
-            <Features />
-            <Story />
-            <Contact />
-            <Footer />
+        <main className="relative w-screen min-h-screen overflow-x-hidden">
+            <video
+            autoPlay
+            muted
+            loop
+            id="background-video">
+                <source src="/public/img/wallpaperbg.mp4" type="video/mp4"/>
+            </video>
+                <Navbar />
+                <Hero />
+                <About />
+                <Features />
+                <Story />
+                <Contact />
+                <Footer />
+            
         </main>
     )
 }

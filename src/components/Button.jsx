@@ -6,12 +6,12 @@ const Button = ({ id, title, rightIcon, leftIcon, containerClass }) => {
             <button
                 id={id}
                 className={clsx(
-                    "group relative z-10 w-fit cursor-pointer overflow-hidden bg-violet-50 px-7 py-3 text-black rounded-full transform transition-all duration-500 ease-in-out",
+                    "group relative z-10 w-fit cursor-pointer overflow-hidden bg-violet-50 px-7 py-3 text-black rounded-md transform transition-all duration-500 ease-in-out",
                     containerClass
                 )}
             >
                 {leftIcon}
-                <span className="relative inline-flex overflow-hidden text-xs uppercase font-general">
+                <span className="relative inline-flex overflow-hidden text-sm font-bold uppercase font-general">
                     <div className="translate-y-0 skew-y-0 transition duration-330 group-hover:translate-y-[-160%] group-hover:skew-y-12">
                         {title}
                     </div>
@@ -23,11 +23,11 @@ const Button = ({ id, title, rightIcon, leftIcon, containerClass }) => {
             </button>
             <style jsx>{`
                 .animated-button {
-                    transition: transform 0.4s ease-in-out, border-radius 0s;
+                    transition: all 0.3s ease-in-out;
                 }
 
                 .animated-button:hover {
-                    transform: perspective(1900px) rotateX(19deg) rotateY(19deg);
+                    transform: perspective(2900px) rotateX(19deg) rotateY(19deg);
                 }
             `}</style>
         </>
