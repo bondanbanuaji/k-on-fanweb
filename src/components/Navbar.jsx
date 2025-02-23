@@ -1,3 +1,4 @@
+import { Link } from "react-scroll";
 import clsx from "clsx";
 import gsap from "gsap";
 import { useWindowScroll } from "react-use";
@@ -9,11 +10,11 @@ import Button from "./Button";
 const navItems = ["Nexus", "Vault", "Prologue", "About", "Contact"];
 
 const NavBar = () => {
-    // State for toggling audio and visual indicator
+    // State untuk audio dan indikator
     const [isAudioPlaying, setIsAudioPlaying] = useState(false);
     const [isIndicatorActive, setIsIndicatorActive] = useState(false);
 
-    // Refs for audio and navigation container
+    // Refs untuk audio dan container navbar
     const audioElementRef = useRef(null);
     const navContainerRef = useRef(null);
 
@@ -21,13 +22,13 @@ const NavBar = () => {
     const [isNavVisible, setIsNavVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
 
-    // Toggle audio and visual indicator
+    // Toggle audio dan indikator
     const toggleAudioIndicator = () => {
         setIsAudioPlaying((prev) => !prev);
         setIsIndicatorActive((prev) => !prev);
     };
 
-    // Manage audio playback
+    // Mengatur pemutaran audio
     useEffect(() => {
         if (isAudioPlaying) {
             audioElementRef.current.play();
@@ -36,24 +37,22 @@ const NavBar = () => {
         }
     }, [isAudioPlaying]);
 
+    // Mengatur visibilitas navbar berdasarkan scroll
     useEffect(() => {
         if (currentScrollY === 0) {
-            // Topmost position: show navbar without floating-nav
             setIsNavVisible(true);
             navContainerRef.current.classList.remove("floating-nav");
         } else if (currentScrollY > lastScrollY) {
-            // Scrolling down: hide navbar and apply floating-nav
             setIsNavVisible(false);
             navContainerRef.current.classList.add("floating-nav");
         } else if (currentScrollY < lastScrollY) {
-            // Scrolling up: show navbar with floating-nav
             setIsNavVisible(true);
             navContainerRef.current.classList.add("floating-nav");
         }
-
         setLastScrollY(currentScrollY);
     }, [currentScrollY, lastScrollY]);
 
+    // Animasi menggunakan gsap
     useEffect(() => {
         gsap.to(navContainerRef.current, {
             y: isNavVisible ? 0 : -100,
@@ -69,10 +68,9 @@ const NavBar = () => {
         >
             <header className="absolute w-full -translate-y-1/2 top-1/2">
                 <nav className="flex items-center justify-between p-4 size-full">
-                    {/* Logo and Product button */}
+                    {/* Logo dan tombol Product */}
                     <div className="flex items-center gap-7">
                         <img src="/img/logo.png" alt="logo" className="w-10" />
-
                         <Button
                             id="product-button"
                             title="Products"
@@ -81,17 +79,20 @@ const NavBar = () => {
                         />
                     </div>
 
-                    {/* Navigation Links and Audio Button */}
+                    {/* Navigation Links dan tombol Audio */}
                     <div className="flex items-center h-full">
                         <div className="hidden md:block">
                             {navItems.map((item, index) => (
-                                <a
+                                <Link
                                     key={index}
-                                    href={`#${item.toLowerCase()}`}
+                                    to={item.toLowerCase()}
+                                    smooth={true}
+                                    duration={800}
+                                    offset={-64} // sesuaikan offset sesuai tinggi navbar
                                     className="nav-hover-btn"
                                 >
                                     {item}
-                                </a>
+                                </Link>
                             ))}
                         </div>
 
