@@ -101,7 +101,7 @@ const Hero = () => {
     const getVideoSrc = (index) => `/videos/hero-${index}.mp4`;
 
     return (
-        <div className="relative w-screen overflow-x-hidden h-dvh">
+        <div id="hero" className="relative w-screen overflow-x-hidden h-dvh">
             {isLoading && (
                 <div className="flex-center absolute z-[100] h-dvh w-screen overflow-hidden bg-violet-50">
                     {/* https://uiverse.io/G4b413l/tidy-walrus-92 */}
