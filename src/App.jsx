@@ -7,10 +7,12 @@ import Story from './components/Story';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import GoTop from './components/GoTop';
+import CursorPointer from './hooks/CursorPointer';
 
 const App = () => {
     return (
         <main className="relative w-screen min-h-screen overflow-x-hidden">
+            <CursorPointer />
             <video
             autoPlay
             muted
